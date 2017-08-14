@@ -1,3 +1,7 @@
+package com.shatranjava.engine.board;
+
+import com.shatranjava.engine.pieces.Piece;
+
 /**
  * Created by Ankur Gupta on 15/8/17.
  * guptaankur.gupta0@gmail.com
