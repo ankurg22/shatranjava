@@ -10,7 +10,7 @@ import com.shatranjava.engine.pieces.Piece;
  */
 public abstract class Tile {
 
-    private int mTileCoordinate;
+    protected final int mTileCoordinate;
 
     public Tile(int tileCoordinate) {
         mTileCoordinate = tileCoordinate;
@@ -26,7 +26,7 @@ public abstract class Tile {
      */
     public static class EmptyTile extends Tile {
 
-        public EmptyTile(int tileCoordinate) {
+        public EmptyTile(final int tileCoordinate) {
             super(tileCoordinate);
         }
 
@@ -46,7 +46,7 @@ public abstract class Tile {
      */
     public static class OccupiedTile extends Tile {
 
-        private Piece mPieceOnTile;
+        private final Piece mPieceOnTile;
 
         public OccupiedTile(Piece pieceOnTile, int tileCoordinate) {
             super(tileCoordinate);
