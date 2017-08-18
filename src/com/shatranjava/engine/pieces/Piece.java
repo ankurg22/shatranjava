@@ -2,6 +2,7 @@ package com.shatranjava.engine.pieces;
 
 import com.shatranjava.engine.Alliance;
 import com.shatranjava.engine.board.Board;
+import com.shatranjava.engine.Coordinate;
 import com.shatranjava.engine.board.Move;
 
 import java.util.List;
@@ -14,14 +15,21 @@ import java.util.List;
  */
 
 public abstract class Piece {
-
-    private final int mPiecePosition;
+    private final Coordinate mPieceCoordinate;
     private final Alliance mPieceAlliance;
 
-    Piece(final int piecePosition, final Alliance pieceAlliance) {
+    Piece(final Coordinate pieceCoordinate, final Alliance pieceAlliance) {
         mPieceAlliance = pieceAlliance;
-        mPiecePosition = piecePosition;
+        mPieceCoordinate = pieceCoordinate;
     }
 
     public abstract List<Move> calculateLegalMoves(final Board board);
+
+    public Coordinate getPieceCoordinate() {
+        return mPieceCoordinate;
+    }
+
+    public Alliance getPieceAlliance() {
+        return mPieceAlliance;
+    }
 }
