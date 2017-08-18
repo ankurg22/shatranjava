@@ -14,28 +14,35 @@ import java.util.Map;
  */
 public abstract class Tile {
 
-    protected final int mTileCoordinate;
+    protected final int mTileCoordinateX;
+    protected final int mTileCoordinateY;
 
-    private static final Map<Integer, EmptyTile> EMPTY_TILES_CACHE = createAllPossibleEmptyTiles();
+    private static final Map<Integer[], EmptyTile> EMPTY_TILES_CACHE = createAllPossibleEmptyTiles();
 
-    private static Map<Integer, EmptyTile> createAllPossibleEmptyTiles() {
-        final Map<Integer, EmptyTile> emptyTileMap = new HashMap<>();
-
-        for (int i = 0; i < 64; i++) {
-            emptyTileMap.put(i, new EmptyTile(i));
+    private static Map<Integer[], EmptyTile> createAllPossibleEmptyTiles() {
+        final Map<Integer[], EmptyTile> emptyTileMap = new HashMap<>();
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Integer[] coordinate = new Integer[]{i, j};
+                emptyTileMap.put(coordinate, new EmptyTile(i, j));
+            }
         }
 
         return ImmutableMap.copyOf(emptyTileMap);
     }
 
-    private static Tile createTile(final int tileCoordinate, final Piece piece) {
-        if (piece != null) return new OccupiedTile(piece, tileCoordinate);
-        else return EMPTY_TILES_CACHE.get(tileCoordinate);
+    private static Tile createTile(final int tileCoordinateX,
+                                   final int tileCoordinateY,
+                                   final Piece piece) {
+        return piece != null ?
+                new OccupiedTile(tileCoordinateX, tileCoordinateY, piece) :
+                EMPTY_TILES_CACHE.get(new Integer[]{tileCoordinateX, tileCoordinateY});
     }
 
 
-    private Tile(int tileCoordinate) {
-        mTileCoordinate = tileCoordinate;
+    private Tile(int tileCoordinateX, int tileCoordinateY) {
+        mTileCoordinateX = tileCoordinateX;
+        mTileCoordinateY = tileCoordinateY;
     }
 
     public abstract boolean isTileOccupied();
@@ -48,8 +55,8 @@ public abstract class Tile {
      */
     public static class EmptyTile extends Tile {
 
-        private EmptyTile(final int tileCoordinate) {
-            super(tileCoordinate);
+        private EmptyTile(final int tileCoordinateX, final int tileCoordinateY) {
+            super(tileCoordinateX, tileCoordinateY);
         }
 
         @Override
@@ -70,8 +77,8 @@ public abstract class Tile {
 
         private final Piece mPieceOnTile;
 
-        private OccupiedTile(Piece pieceOnTile, int tileCoordinate) {
-            super(tileCoordinate);
+        private OccupiedTile(int tileCoordinateX, int tileCoordinateY, Piece pieceOnTile) {
+            super(tileCoordinateX, tileCoordinateY);
             mPieceOnTile = pieceOnTile;
         }
 
