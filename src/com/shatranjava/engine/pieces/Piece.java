@@ -5,7 +5,7 @@ import com.shatranjava.engine.board.Board;
 import com.shatranjava.engine.Coordinate;
 import com.shatranjava.engine.board.Move;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Created by Ankur Gupta on 15/8/17.
@@ -23,7 +23,7 @@ public abstract class Piece {
         mPieceCoordinate = pieceCoordinate;
     }
 
-    public abstract List<Move> calculateLegalMoves(final Board board);
+    public abstract Collection<Move> calculateLegalMoves(final Board board);
 
     public Coordinate getPieceCoordinate() {
         return mPieceCoordinate;
