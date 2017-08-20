@@ -5,6 +5,8 @@ import com.shatranjava.engine.Alliance;
 import com.shatranjava.engine.board.Board;
 import com.shatranjava.engine.Coordinate;
 import com.shatranjava.engine.board.Move;
+import com.shatranjava.engine.board.Move.AttackMove;
+import com.shatranjava.engine.board.Move.MajorMove;
 import com.shatranjava.engine.board.Tile;
 
 import java.util.ArrayList;
@@ -45,15 +47,22 @@ public class Knight extends Piece {
                 final Tile candidateDestinationTile = board.getTile(candidateDestinationCoordinate);
                 if (!candidateDestinationTile.isTileOccupied()) {
                     //Empty destination, move possible
-                    legalMoves.add(new Move());
+                    legalMoves.add(new MajorMove(board,
+                            this,
+                            candidateDestinationCoordinate)
+                    );
                 } else {
                     //Not empty
                     final Piece pieceAtDestination = candidateDestinationTile.getPiece();
                     final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
 
                     if (pieceAlliance != getPieceAlliance()) {
-                        //Enemy TODO
-                        legalMoves.add(new Move());
+                        //Enemy
+                        legalMoves.add(new AttackMove(board,
+                                this,
+                                candidateDestinationCoordinate,
+                                pieceAtDestination)
+                        );
                     }
                 }
             }
