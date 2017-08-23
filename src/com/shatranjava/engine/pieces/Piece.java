@@ -17,10 +17,12 @@ import java.util.Collection;
 public abstract class Piece {
     private final Coordinate mPieceCoordinate;
     private final Alliance mPieceAlliance;
+    protected boolean isFirstMove;
 
     Piece(final Coordinate pieceCoordinate, final Alliance pieceAlliance) {
         mPieceAlliance = pieceAlliance;
         mPieceCoordinate = pieceCoordinate;
+        isFirstMove = false;
     }
 
     public abstract Collection<Move> calculateLegalMoves(final Board board);
@@ -31,5 +33,9 @@ public abstract class Piece {
 
     public Alliance getPieceAlliance() {
         return mPieceAlliance;
+    }
+
+    public boolean isFirstMove(){
+        return isFirstMove;
     }
 }
