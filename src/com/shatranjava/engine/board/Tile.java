@@ -30,8 +30,8 @@ public abstract class Tile {
         return ImmutableMap.copyOf(emptyTileMap);
     }
 
-    private static Tile createTile(final Coordinate tileCoordinate,
-                                   final Piece piece) {
+    public static Tile createTile(final Coordinate tileCoordinate,
+                                  final Piece piece) {
         return piece != null ? new OccupiedTile(tileCoordinate, piece) :
                 EMPTY_TILES_CACHE.get(tileCoordinate);
     }
