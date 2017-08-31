@@ -22,7 +22,7 @@ public class Bishop extends Piece {
             new Coordinate(1, 1)
     };
 
-    Bishop(Coordinate pieceCoordinate, Alliance pieceAlliance) {
+    public Bishop(Coordinate pieceCoordinate, Alliance pieceAlliance) {
         super(pieceCoordinate, pieceAlliance);
     }
 

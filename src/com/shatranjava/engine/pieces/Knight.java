@@ -29,7 +29,7 @@ public class Knight extends Piece {
 
     };
 
-    Knight(Coordinate pieceCoordinate, Alliance pieceAlliance) {
+    public Knight(Coordinate pieceCoordinate, Alliance pieceAlliance) {
         super(pieceCoordinate, pieceAlliance);
     }
 

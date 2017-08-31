@@ -22,7 +22,7 @@ public class Pawn extends Piece {
             new Coordinate(1, -1)
     };
 
-    Pawn(Coordinate pieceCoordinate, Alliance pieceAlliance) {
+    public Pawn(Coordinate pieceCoordinate, Alliance pieceAlliance) {
         super(pieceCoordinate, pieceAlliance);
     }
 

@@ -23,7 +23,7 @@ public class Queen extends Piece {
             new Coordinate(1, 1)
     };
 
-    Queen(Coordinate pieceCoordinate, Alliance pieceAlliance) {
+    public Queen(Coordinate pieceCoordinate, Alliance pieceAlliance) {
         super(pieceCoordinate, pieceAlliance);
     }
 

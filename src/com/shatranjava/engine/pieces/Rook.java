@@ -20,7 +20,7 @@ public class Rook extends Piece {
             new Coordinate(1, 0)
     };
 
-    Rook(Coordinate pieceCoordinate, Alliance pieceAlliance) {
+    public Rook(Coordinate pieceCoordinate, Alliance pieceAlliance) {
         super(pieceCoordinate, pieceAlliance);
     }
 

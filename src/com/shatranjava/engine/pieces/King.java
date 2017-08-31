@@ -26,7 +26,7 @@ public class King extends Piece {
             new Coordinate(1, 1)
     };
 
-    King(Coordinate pieceCoordinate, Alliance pieceAlliance) {
+    public King(Coordinate pieceCoordinate, Alliance pieceAlliance) {
         super(pieceCoordinate, pieceAlliance);
     }
 
