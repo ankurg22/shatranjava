@@ -22,10 +22,21 @@ public class Board {
         this.mGameBoard = createGameBoard(builder);
         mWhitePieces = calculateActivePieces(mGameBoard, Alliance.WHITE);
         mBlackPieces = calculateActivePieces(mGameBoard, Alliance.BLACK);
+
+        final Collection<Move> whiteStandardLegalMoves = calculateLegalMoves(mWhitePieces);
+        final Collection<Move> blackStandardLegalMoves = calculateLegalMoves(mBlackPieces);
     }
 
-    private Collection<Piece> calculateActivePieces(final Map<Coordinate, Tile> gameBoard,
-                                                    final Alliance alliance) {
+    private Collection<Move> calculateLegalMoves(Collection<Piece> pieces) {
+        List<Move> legalMoves = new ArrayList<>();
+        for (Piece piece : pieces) {
+            legalMoves.addAll(piece.calculateLegalMoves(this));
+        }
+        return ImmutableList.copyOf(legalMoves);
+    }
+
+    private static Collection<Piece> calculateActivePieces(final Map<Coordinate, Tile> gameBoard,
+                                                           final Alliance alliance) {
         final List<Piece> activePieces = new ArrayList<>();
         for (final Tile tile : gameBoard.values()) {
             if (tile.isTileOccupied()) {
@@ -35,6 +46,7 @@ public class Board {
                 }
             }
         }
+        return ImmutableList.copyOf(activePieces);
     }
 
     public Tile getTile(final Coordinate tileCoordinate) {
