@@ -28,8 +28,8 @@ public class Coordinate {
     public static Coordinate add(final Coordinate coordinateA,
                                  final Coordinate coordinateB) {
         return new Coordinate(
-                coordinateA.getCoordinateX() + coordinateB.getCoordinateX(),
-                coordinateA.getCoordinateY() + coordinateB.getCoordinateY()
+                coordinateA.getX() + coordinateB.getX(),
+                coordinateA.getY() + coordinateB.getY()
         );
     }
 
@@ -43,8 +43,8 @@ public class Coordinate {
     public static Coordinate mult(final Coordinate coordinate,
                                   final int direction) {
         return new Coordinate(
-                coordinate.getCoordinateX() * direction,
-                coordinate.getCoordinateY() * direction
+                coordinate.getX() * direction,
+                coordinate.getY() * direction
         );
     }
 
@@ -59,11 +59,11 @@ public class Coordinate {
         return false;
     }
 
-    public int getCoordinateX() {
+    public int getX() {
         return mCoordinateX;
     }
 
-    public int getCoordinateY() {
+    public int getY() {
         return mCoordinateY;
     }
 }

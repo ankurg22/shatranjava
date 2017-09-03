@@ -47,9 +47,9 @@ public class Pawn extends Piece {
                 final Tile candidateDestinationTile =
                         board.getTile(candidateDestinationCoordinate);
                 //Non attacking move(forward)
-                if ((currentCoordinate.getCoordinateX() == 1 ||
-                        currentCoordinate.getCoordinateX() == -1) &&
-                        currentCoordinate.getCoordinateY() == 0) {
+                if ((currentCoordinate.getX() == 1 ||
+                        currentCoordinate.getX() == -1) &&
+                        currentCoordinate.getY() == 0) {
                     //Forward by 1, no attacking
                     if (!candidateDestinationTile.isTileOccupied()) {
                         legalMoves.add(new MajorMove(board,
@@ -58,8 +58,8 @@ public class Pawn extends Piece {
                         );
                     }
                     //Non attacking move(jump)
-                } else if ((currentCoordinate.getCoordinateX() == 2 ||
-                        currentCoordinate.getCoordinateX() == -2 &&
+                } else if ((currentCoordinate.getX() == 2 ||
+                        currentCoordinate.getX() == -2 &&
                                 isFirstMove())) {
                     final Coordinate behindCandidateDestinationCoordinate =
                             Coordinate.add(
@@ -76,7 +76,7 @@ public class Pawn extends Piece {
                                 candidateDestinationCoordinate)
                         );
                     }
-                } else if (currentCoordinate.getCoordinateX() == currentCoordinate.getCoordinateY()) {
+                } else if (currentCoordinate.getX() == currentCoordinate.getY()) {
                     if (candidateDestinationTile.isTileOccupied()) {
                         final Piece pieceAtDestination = candidateDestinationTile.getPiece();
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
