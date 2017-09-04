@@ -48,6 +48,21 @@ public class Coordinate {
         );
     }
 
+    @Override
+    public int hashCode() {
+        return mCoordinateX * 31 + mCoordinateY;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Coordinate) {
+            Coordinate co = (Coordinate) o;
+            return co.getX() == mCoordinateX && co.getY() == mCoordinateY;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * To check whether the coordinate is valid and lies within the
      * {@link com.shatranjava.engine.board.Board}

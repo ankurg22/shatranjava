@@ -1,6 +1,7 @@
 package com.shatranjava.engine.board;
 
 import com.google.common.collect.ImmutableMap;
+import com.shatranjava.engine.Alliance;
 import com.shatranjava.engine.Coordinate;
 import com.shatranjava.engine.pieces.Piece;
 
@@ -56,6 +57,11 @@ public abstract class Tile {
         }
 
         @Override
+        public String toString() {
+            return "-";
+        }
+
+        @Override
         public boolean isTileOccupied() {
             return false;
         }
@@ -76,6 +82,12 @@ public abstract class Tile {
         private OccupiedTile(Coordinate tileCoordinate, Piece pieceOnTile) {
             super(tileCoordinate);
             mPieceOnTile = pieceOnTile;
+        }
+
+        @Override
+        public String toString() {
+            return getPiece().getPieceAlliance() == Alliance.BLACK ? getPiece().toString().toLowerCase() :
+                    getPiece().toString();
         }
 
         @Override

@@ -35,7 +35,28 @@ public abstract class Piece {
         return mPieceAlliance;
     }
 
-    public boolean isFirstMove(){
+    public boolean isFirstMove() {
         return isFirstMove;
+    }
+
+    public enum PieceType {
+        PAWN("P"),
+        KNIGHT("N"),
+        BISHOP("B"),
+        ROOK("R"),
+        QUEEN("Q"),
+        KING("K");
+
+        private String mPieceName;
+
+        PieceType(String pieceName) {
+            mPieceName = pieceName;
+        }
+
+
+        @Override
+        public String toString() {
+            return mPieceName;
+        }
     }
 }

@@ -19,12 +19,25 @@ public class Board {
     private final Collection<Piece> mBlackPieces;
 
     public Board(Builder builder) {
-        this.mGameBoard = createGameBoard(builder);
+        mGameBoard = createGameBoard(builder);
         mWhitePieces = calculateActivePieces(mGameBoard, Alliance.WHITE);
         mBlackPieces = calculateActivePieces(mGameBoard, Alliance.BLACK);
 
         final Collection<Move> whiteStandardLegalMoves = calculateLegalMoves(mWhitePieces);
         final Collection<Move> blackStandardLegalMoves = calculateLegalMoves(mBlackPieces);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < TILES_PER_ROW; i++) {
+            for (int j = 0; j < TILES_PER_ROW; j++) {
+                String tileText = mGameBoard.get(new Coordinate(i, j)).toString();
+                builder.append(String.format("%3s", tileText));
+            }
+            builder.append("\n");
+        }
+        return builder.toString();
     }
 
     private Collection<Move> calculateLegalMoves(Collection<Piece> pieces) {
@@ -38,7 +51,8 @@ public class Board {
     private static Collection<Piece> calculateActivePieces(final Map<Coordinate, Tile> gameBoard,
                                                            final Alliance alliance) {
         final List<Piece> activePieces = new ArrayList<>();
-        for (final Tile tile : gameBoard.values()) {
+        for (final Map.Entry<Coordinate, Tile> tileEntry : gameBoard.entrySet()) {
+            Tile tile = tileEntry.getValue();
             if (tile.isTileOccupied()) {
                 final Piece piece = tile.getPiece();
                 if (piece.getPieceAlliance() == alliance) {
@@ -58,8 +72,9 @@ public class Board {
         for (int i = 0; i < TILES_PER_ROW; i++) {
             for (int j = 0; j < TILES_PER_ROW; j++) {
                 Coordinate coordinate = new Coordinate(i, j);
-                tiles.put(coordinate,
-                        Tile.createTile(coordinate, builder.mBoardConfig.get(coordinate)));
+                Piece piece = builder.mBoardConfig.get(coordinate);
+                Tile tile = Tile.createTile(coordinate, piece);
+                tiles.put(coordinate, tile);
             }
 
         }
@@ -112,6 +127,7 @@ public class Board {
         Alliance mNextMoveMaker;
 
         public Builder() {
+            mBoardConfig = new HashMap<>();
         }
 
         public Builder setPiece(final Piece piece) {

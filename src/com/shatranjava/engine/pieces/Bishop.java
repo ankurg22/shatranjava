@@ -70,4 +70,9 @@ public class Bishop extends Piece {
         }
         return ImmutableList.copyOf(legalMoves);
     }
+
+    @Override
+    public String toString() {
+        return PieceType.BISHOP.toString();
+    }
 }
