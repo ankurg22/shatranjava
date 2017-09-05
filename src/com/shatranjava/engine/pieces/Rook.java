@@ -70,6 +70,11 @@ public class Rook extends Piece {
     }
 
     @Override
+    public PieceType getPieceType() {
+        return PieceType.ROOK;
+    }
+
+    @Override
     public String toString() {
         return PieceType.ROOK.toString();
     }

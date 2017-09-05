@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static com.shatranjava.engine.board.Move.*;
+
 public class Queen extends Piece {
     private final static Coordinate[] CANDIDATE_MOVE_COORDINATES = {
             new Coordinate(-1, -1),
@@ -45,7 +47,7 @@ public class Queen extends Piece {
                             board.getTile(candidateDestinationCoordinate);
                     if (!candidateDestinationTile.isTileOccupied()) {
                         //Empty tile, we can move
-                        legalMoves.add(new Move.MajorMove(board,
+                        legalMoves.add(new MajorMove(board,
                                 this,
                                 candidateDestinationCoordinate)
                         );
@@ -56,7 +58,7 @@ public class Queen extends Piece {
 
                         if (pieceAlliance != getPieceAlliance()) {
                             //Enemy
-                            legalMoves.add(new Move.AttackMove(board,
+                            legalMoves.add(new AttackMove(board,
                                     this,
                                     candidateDestinationCoordinate,
                                     pieceAtDestination)
@@ -70,6 +72,11 @@ public class Queen extends Piece {
             } while (candidateDestinationCoordinate.isValidCoordinate());
         }
         return ImmutableList.copyOf(legalMoves);
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.QUEEN;
     }
 
     @Override

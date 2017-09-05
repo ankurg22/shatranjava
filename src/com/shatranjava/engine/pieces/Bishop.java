@@ -72,6 +72,11 @@ public class Bishop extends Piece {
     }
 
     @Override
+    public PieceType getPieceType() {
+        return PieceType.BISHOP;
+    }
+
+    @Override
     public String toString() {
         return PieceType.BISHOP.toString();
     }

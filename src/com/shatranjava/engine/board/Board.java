@@ -5,6 +5,8 @@ import com.google.common.collect.ImmutableMap;
 import com.shatranjava.engine.Alliance;
 import com.shatranjava.engine.Coordinate;
 import com.shatranjava.engine.pieces.*;
+import com.shatranjava.engine.player.BlackPlayer;
+import com.shatranjava.engine.player.WhitePlayer;
 
 import java.util.*;
 
@@ -18,6 +20,9 @@ public class Board {
     private final Collection<Piece> mWhitePieces;
     private final Collection<Piece> mBlackPieces;
 
+    private final WhitePlayer mWhitePlayer;
+    private final BlackPlayer mBlackPlayer;
+
     public Board(Builder builder) {
         mGameBoard = createGameBoard(builder);
         mWhitePieces = calculateActivePieces(mGameBoard, Alliance.WHITE);
@@ -25,6 +30,9 @@ public class Board {
 
         final Collection<Move> whiteStandardLegalMoves = calculateLegalMoves(mWhitePieces);
         final Collection<Move> blackStandardLegalMoves = calculateLegalMoves(mBlackPieces);
+
+        mWhitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+        mBlackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
     }
 
     @Override
@@ -38,6 +46,14 @@ public class Board {
             builder.append("\n");
         }
         return builder.toString();
+    }
+
+    public Collection<Piece> getWhitePieces() {
+        return mWhitePieces;
+    }
+
+    public Collection<Piece> getBlackPieces() {
+        return mBlackPieces;
     }
 
     private Collection<Move> calculateLegalMoves(Collection<Piece> pieces) {
