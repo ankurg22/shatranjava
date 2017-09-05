@@ -1,5 +1,6 @@
 package com.shatranjava.engine.player;
 
+import com.shatranjava.engine.Alliance;
 import com.shatranjava.engine.board.Board;
 import com.shatranjava.engine.board.Move;
 import com.shatranjava.engine.pieces.Piece;
@@ -15,7 +16,17 @@ public class WhitePlayer extends Player {
     }
 
     @Override
-    protected Collection<Piece> getActivePieces() {
+    public Collection<Piece> getActivePieces() {
         return mBoard.getWhitePieces();
+    }
+
+    @Override
+    public Alliance getAlliance() {
+        return Alliance.WHITE;
+    }
+
+    @Override
+    public Player getOpponent() {
+        return mBoard.getWhitePlayer();
     }
 }
