@@ -6,6 +6,7 @@ import com.shatranjava.engine.Alliance;
 import com.shatranjava.engine.Coordinate;
 import com.shatranjava.engine.pieces.*;
 import com.shatranjava.engine.player.BlackPlayer;
+import com.shatranjava.engine.player.Player;
 import com.shatranjava.engine.player.WhitePlayer;
 
 import java.util.*;
@@ -23,6 +24,8 @@ public class Board {
     private final WhitePlayer mWhitePlayer;
     private final BlackPlayer mBlackPlayer;
 
+    private final Player mCurrentPlayer;
+
     public Board(Builder builder) {
         mGameBoard = createGameBoard(builder);
         mWhitePieces = calculateActivePieces(mGameBoard, Alliance.WHITE);
@@ -33,6 +36,8 @@ public class Board {
 
         mWhitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
         mBlackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+
+        mCurrentPlayer = null;
     }
 
     @Override
@@ -143,6 +148,10 @@ public class Board {
 
         builder.setMoveMaker(Alliance.WHITE);
         return builder.build();
+    }
+
+    public Player getCurrentPlayer() {
+        return mCurrentPlayer;
     }
 
     public static class Builder {

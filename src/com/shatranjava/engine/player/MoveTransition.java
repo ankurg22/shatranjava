@@ -11,9 +11,13 @@ public class MoveTransition {
 
     public MoveTransition(final Board transitionBoard,
                           final Move move,
-                          final MoveStatus moveStatus){
+                          final MoveStatus moveStatus) {
         mTransitionBoard = transitionBoard;
         mMove = move;
         mMoveStatus = moveStatus;
+    }
+
+    public MoveStatus getMoveStatus() {
+        return mMoveStatus;
     }
 }

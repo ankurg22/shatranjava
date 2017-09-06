@@ -23,12 +23,23 @@ public abstract class Move {
         mDestinationCoordinate = destinationCoordinate;
     }
 
+    public Coordinate getDestinationCoordinate() {
+        return mDestinationCoordinate;
+    }
+
+    public abstract Board execute();
+
     public static final class MajorMove extends Move {
 
         public MajorMove(final Board board,
                          final Piece pieceMoved,
                          final Coordinate destinationCoordinate) {
             super(board, pieceMoved, destinationCoordinate);
+        }
+
+        @Override
+        public Board execute() {
+            return null;
         }
     }
 
@@ -42,6 +53,11 @@ public abstract class Move {
                           final Piece pieceAttacked) {
             super(board, pieceMoved, destinationCoordinate);
             mPieceAttacked = pieceAttacked;
+        }
+
+        @Override
+        public Board execute() {
+            return null;
         }
     }
 }
