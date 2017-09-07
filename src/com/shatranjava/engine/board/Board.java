@@ -37,7 +37,7 @@ public class Board {
         mWhitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
         mBlackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
 
-        mCurrentPlayer = null;
+        mCurrentPlayer = builder.mNextMoveMaker.choosePlayer(mWhitePlayer, mBlackPlayer);
     }
 
     @Override
