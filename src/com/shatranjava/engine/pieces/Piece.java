@@ -18,11 +18,37 @@ public abstract class Piece {
     private final Coordinate mPieceCoordinate;
     private final Alliance mPieceAlliance;
     protected boolean isFirstMove;
+    private int mCachedHashCode;
 
     Piece(final Coordinate pieceCoordinate, final Alliance pieceAlliance) {
         mPieceAlliance = pieceAlliance;
         mPieceCoordinate = pieceCoordinate;
         isFirstMove = false;
+        mCachedHashCode = computeHashCode();
+    }
+
+    private int computeHashCode() {
+        int result = mPieceCoordinate.hashCode();
+        result = 31 * result + mPieceAlliance.hashCode();
+        result = 31 * result + (isFirstMove ? 1 : 0);
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        return mCachedHashCode;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Piece)) {
+            return false;
+        }
+        Piece piece = (Piece) o;
+        return mPieceCoordinate.equals(piece.getPieceCoordinate()) &&
+                mPieceAlliance == piece.getPieceAlliance() &&
+                isFirstMove == piece.isFirstMove;
     }
 
     public abstract Collection<Move> calculateLegalMoves(final Board board);
