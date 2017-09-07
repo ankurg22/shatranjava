@@ -2,6 +2,7 @@ package com.shatranjava.engine.board;
 
 import com.shatranjava.engine.Coordinate;
 import com.shatranjava.engine.pieces.Piece;
+import com.shatranjava.engine.player.Player;
 
 /**
  * Created by Ankur Gupta on 15/8/17.
@@ -11,8 +12,8 @@ import com.shatranjava.engine.pieces.Piece;
  */
 public abstract class Move {
 
-    private final Board mBoard;
-    private final Piece mPieceMoved;
+    protected final Board mBoard;
+    protected final Piece mPieceMoved;
     private final Coordinate mDestinationCoordinate;
 
     private Move(final Board board,
@@ -29,6 +30,10 @@ public abstract class Move {
 
     public abstract Board execute();
 
+    public Piece getPieceMoved() {
+        return mPieceMoved;
+    }
+
     public static final class MajorMove extends Move {
 
         public MajorMove(final Board board,
@@ -39,6 +44,18 @@ public abstract class Move {
 
         @Override
         public Board execute() {
+            final Board.Builder builder = new Board.Builder();
+            for (Piece piece : mBoard.getCurrentPlayer().getActivePieces()) {
+                if (!mPieceMoved.equals(piece)) {
+                    builder.setPiece(piece);
+                }
+            }
+            for (Piece piece : mBoard.getCurrentPlayer().getOpponent().getActivePieces()) {
+                builder.setPiece(piece);
+            }
+
+            builder.setPiece(mPieceMoved.movePiece(this));
+            builder.setMoveMaker(mBoard.getCurrentPlayer().getOpponent().getAlliance());
             return null;
         }
     }

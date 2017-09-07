@@ -41,6 +41,8 @@ public abstract class Piece {
 
     public abstract PieceType getPieceType();
 
+    public abstract Piece movePiece(Move move);
+
     public enum PieceType {
         PAWN("P") {
             @Override
@@ -86,6 +88,7 @@ public abstract class Piece {
         }
 
         public abstract boolean isKing();
+
         @Override
         public String toString() {
             return mPieceName;
