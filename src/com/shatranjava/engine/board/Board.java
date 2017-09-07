@@ -2,6 +2,7 @@ package com.shatranjava.engine.board;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.shatranjava.engine.Alliance;
 import com.shatranjava.engine.Coordinate;
 import com.shatranjava.engine.pieces.*;
@@ -152,6 +153,12 @@ public class Board {
 
     public Player getCurrentPlayer() {
         return mCurrentPlayer;
+    }
+
+    public Iterable<Move> getAllLegalMoves() {
+        return Iterables.unmodifiableIterable(
+                Iterables.concat(mWhitePlayer.getLegalMoves(), mBlackPlayer.getLegalMoves())
+        );
     }
 
     public static class Builder {
