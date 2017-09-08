@@ -1,6 +1,8 @@
 package com.shatranjava.engine.board;
 
 import com.shatranjava.engine.Coordinate;
+import com.shatranjava.engine.board.Board.Builder;
+import com.shatranjava.engine.pieces.Pawn;
 import com.shatranjava.engine.pieces.Piece;
 import com.shatranjava.engine.player.Player;
 
@@ -26,12 +28,30 @@ public abstract class Move {
         mDestinationCoordinate = destinationCoordinate;
     }
 
+    @Override
+    public int hashCode() {
+
+        int result = 31 + mPieceMoved.hashCode();
+        result = 31 * result + mDestinationCoordinate.hashCode();
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Move)) return false;
+        Move move = (Move) o;
+        return move.getCurrentCoordinate() == getCurrentCoordinate() &&
+                move.getDestinationCoordinate() == getDestinationCoordinate() &&
+                move.getPieceMoved() == getPieceMoved();
+    }
+
     public Coordinate getDestinationCoordinate() {
         return mDestinationCoordinate;
     }
 
     public Board execute() {
-        final Board.Builder builder = new Board.Builder();
+        final Builder builder = new Builder();
         for (Piece piece : mBoard.getCurrentPlayer().getActivePieces()) {
             if (!mPieceMoved.equals(piece)) {
                 builder.setPiece(piece);
@@ -48,6 +68,18 @@ public abstract class Move {
 
     public Piece getPieceMoved() {
         return mPieceMoved;
+    }
+
+    public boolean isAttack() {
+        return false;
+    }
+
+    public boolean isCastlingMove() {
+        return false;
+    }
+
+    public Piece getAttackedPiece() {
+        return null;
     }
 
     public Coordinate getCurrentCoordinate() {
@@ -74,6 +106,29 @@ public abstract class Move {
                           final Piece pieceAttacked) {
             super(board, pieceMoved, destinationCoordinate);
             mPieceAttacked = pieceAttacked;
+        }
+
+        @Override
+        public int hashCode() {
+            return mPieceAttacked.hashCode() + super.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof AttackMove)) return false;
+            final AttackMove move = (AttackMove) o;
+            return super.equals(move) && getAttackedPiece().equals(move.getAttackedPiece());
+        }
+
+        @Override
+        public boolean isAttack() {
+            return true;
+        }
+
+        @Override
+        public Piece getAttackedPiece() {
+            return mPieceAttacked;
         }
 
         @Override
@@ -122,6 +177,23 @@ public abstract class Move {
             super(board, pieceMoved, destinationCoordinate);
         }
 
+        @Override
+        public Board execute() {
+            final Builder builder = new Builder();
+            for (final Piece piece : mBoard.getCurrentPlayer().getActivePieces()) {
+                if (!mPieceMoved.equals(piece)) {
+                    builder.setPiece(piece);
+                }
+            }
+            for (final Piece piece : mBoard.getCurrentPlayer().getOpponent().getActivePieces()) {
+                builder.setPiece(piece);
+            }
+            final Pawn movedPawn = (Pawn) mPieceMoved.movePiece(this);
+            builder.setPiece(movedPawn);
+            builder.setEnPassantPawn(movedPawn);
+            builder.setMoveMaker(mBoard.getCurrentPlayer().getOpponent().getAlliance());
+            return builder.build();
+        }
     }
 
     static abstract class CastleMove extends Move {
