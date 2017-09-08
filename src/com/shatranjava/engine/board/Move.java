@@ -74,10 +74,6 @@ public abstract class Move {
         return false;
     }
 
-    public boolean isCastlingMove() {
-        return false;
-    }
-
     public Piece getAttackedPiece() {
         return null;
     }
@@ -194,36 +190,6 @@ public abstract class Move {
             builder.setMoveMaker(mBoard.getCurrentPlayer().getOpponent().getAlliance());
             return builder.build();
         }
-    }
-
-    static abstract class CastleMove extends Move {
-
-        public CastleMove(final Board board,
-                          final Piece pieceMoved,
-                          final Coordinate destinationCoordinate) {
-            super(board, pieceMoved, destinationCoordinate);
-        }
-
-    }
-
-    public static final class KingSideCastleMove extends CastleMove {
-
-        public KingSideCastleMove(final Board board,
-                                  final Piece pieceMoved,
-                                  final Coordinate destinationCoordinate) {
-            super(board, pieceMoved, destinationCoordinate);
-        }
-
-    }
-
-    public static final class QueenSideCastleMove extends CastleMove {
-
-        public QueenSideCastleMove(final Board board,
-                                   final Piece pieceMoved,
-                                   final Coordinate destinationCoordinate) {
-            super(board, pieceMoved, destinationCoordinate);
-        }
-
     }
 
     public static final class NullMove extends Move {
