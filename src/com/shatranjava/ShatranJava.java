@@ -1,6 +1,7 @@
-package com.shatranjava.engine;
+package com.shatranjava;
 
 import com.shatranjava.engine.board.Board;
+import com.shatranjava.gui.Table;
 
 public class ShatranJava {
 
@@ -9,5 +10,7 @@ public class ShatranJava {
         Board board = Board.createStandardBoard();
 
         System.out.println(board);
+
+        Table table = new Table();
     }
 }
