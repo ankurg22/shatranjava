@@ -2,8 +2,6 @@ package com.shatranjava.gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Table {
 
@@ -13,15 +11,16 @@ public class Table {
 
     public Table() {
         mGameFrame = new JFrame("ShatranJava");
-        final JMenuBar tableMenuBar = new JMenuBar();
-        populateMenuBar(tableMenuBar);
+        final JMenuBar tableMenuBar = createTableMenuBar();
         mGameFrame.setJMenuBar(tableMenuBar);
         mGameFrame.setSize(FRAME_DIMENSION_OUTER);
         mGameFrame.setVisible(true);
     }
 
-    private void populateMenuBar(JMenuBar tableMenuBar) {
+    private JMenuBar createTableMenuBar() {
+        final JMenuBar tableMenuBar = new JMenuBar();
         tableMenuBar.add(createFileMenu());
+        return tableMenuBar;
     }
 
     private JMenu createFileMenu() {
