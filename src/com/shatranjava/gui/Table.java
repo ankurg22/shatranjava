@@ -13,6 +13,9 @@ public class Table {
     private static final Dimension BOARD_PANEL_DIMENSION = new Dimension(400, 350);
     private static final Dimension TILE_PANEL_DIMENSION = new Dimension(10, 10);
 
+    private Color lightColor = new Color(255, 255, 255);
+    private Color darkColor = new Color(0, 0, 0);
+
     public Table() {
         mGameFrame = new JFrame("ShatranJava");
         mGameFrame.setLayout(new BorderLayout());
@@ -75,7 +78,11 @@ public class Table {
         }
 
         private void assignTileColor() {
-
+            if (tileCoordinate.getX() % 2 == 0) {
+                setBackground(tileCoordinate.getY() % 2 == 0 ? lightColor : darkColor);
+            } else if (tileCoordinate.getX() % 2 != 0) {
+                setBackground(tileCoordinate.getY() % 2 == 0 ? darkColor : lightColor);
+            }
         }
 
 
