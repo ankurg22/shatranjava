@@ -4,6 +4,8 @@ import com.shatranjava.engine.Coordinate;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Table {
     private final JFrame mGameFrame;
@@ -42,7 +44,16 @@ public class Table {
             System.out.println("Open PGN menu item clicked");
         });
 
+        final JMenuItem exitMenu = new JMenuItem("Exit");
+        exitMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+
         fileMenu.add(openPGN);
+        fileMenu.add(exitMenu);
         return fileMenu;
     }
 
