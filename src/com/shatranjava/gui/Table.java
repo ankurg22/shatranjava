@@ -1,22 +1,29 @@
 package com.shatranjava.gui;
 
 import com.shatranjava.engine.Coordinate;
+import com.shatranjava.engine.board.Board;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Table {
     private final JFrame mGameFrame;
     private final BoardPanel mBoardPanel;
+    private final Board mChessBoard;
 
     private static final Dimension FRAME_DIMENSION_OUTER = new Dimension(600, 600);
     private static final Dimension BOARD_PANEL_DIMENSION = new Dimension(400, 350);
     private static final Dimension TILE_PANEL_DIMENSION = new Dimension(10, 10);
+    private static String pieceImagePath = "art/pieces/";
 
-    private Color lightColor = new Color(255, 255, 255);
-    private Color darkColor = new Color(0, 0, 0);
+    private Color lightColor = new Color(225, 225, 225);
+    private Color darkColor = new Color(161, 183, 243);
 
     public Table() {
         mGameFrame = new JFrame("ShatranJava");
@@ -24,6 +31,8 @@ public class Table {
         final JMenuBar tableMenuBar = createTableMenuBar();
         mGameFrame.setJMenuBar(tableMenuBar);
         mGameFrame.setSize(FRAME_DIMENSION_OUTER);
+
+        mChessBoard = Board.createStandardBoard();
 
         mBoardPanel = new BoardPanel();
         mGameFrame.add(mBoardPanel, BorderLayout.CENTER);
@@ -85,6 +94,7 @@ public class Table {
             this.tileCoordinate = tileCoordinate;
             setPreferredSize(TILE_PANEL_DIMENSION);
             assignTileColor();
+            assignTilePieceIcon(mChessBoard);
             validate();
         }
 
@@ -93,6 +103,21 @@ public class Table {
                 setBackground(tileCoordinate.getY() % 2 == 0 ? lightColor : darkColor);
             } else if (tileCoordinate.getX() % 2 != 0) {
                 setBackground(tileCoordinate.getY() % 2 == 0 ? darkColor : lightColor);
+            }
+        }
+
+        private void assignTilePieceIcon(Board board) {
+            removeAll();
+            if (board.getTile(tileCoordinate).isTileOccupied()) {
+                try {
+                    String path = pieceImagePath + board.getTile(tileCoordinate).getPiece().getPieceAlliance().toString().substring(0, 1) +
+                            board.getTile(tileCoordinate).getPiece().getPieceType().toString() + ".gif";
+                    BufferedImage icon =
+                            ImageIO.read(new File(path));
+                    add(new JLabel(new ImageIcon(icon)));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
