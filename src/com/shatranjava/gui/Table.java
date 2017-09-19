@@ -2,20 +2,34 @@ package com.shatranjava.gui;
 
 import com.shatranjava.engine.Coordinate;
 import com.shatranjava.engine.board.Board;
+import com.shatranjava.engine.board.Move;
+import com.shatranjava.engine.board.Tile;
+import com.shatranjava.engine.pieces.Piece;
+import com.shatranjava.engine.player.MoveTransition;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import static javax.swing.SwingUtilities.invokeLater;
+import static javax.swing.SwingUtilities.isLeftMouseButton;
+import static javax.swing.SwingUtilities.isRightMouseButton;
+
 public class Table {
     private final JFrame mGameFrame;
     private final BoardPanel mBoardPanel;
-    private final Board mChessBoard;
+    private Board mChessBoard;
+
+    private Tile mSourceTile;
+    private Tile mDestinationTile;
+    private Piece mHumanMovedPiece;
 
     private static final Dimension FRAME_DIMENSION_OUTER = new Dimension(600, 600);
     private static final Dimension BOARD_PANEL_DIMENSION = new Dimension(400, 350);
@@ -82,6 +96,19 @@ public class Table {
             setPreferredSize(BOARD_PANEL_DIMENSION);
             validate();
         }
+
+        public void drawBoard(final Board board) {
+            removeAll();
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    final TilePanel tilePanel = boardTiles[i][j];
+                    tilePanel.drawTile(board);
+                    add(tilePanel);
+                }
+                validate();
+                repaint();
+            }
+        }
     }
 
     private class TilePanel extends JPanel {
@@ -95,6 +122,57 @@ public class Table {
             setPreferredSize(TILE_PANEL_DIMENSION);
             assignTileColor();
             assignTilePieceIcon(mChessBoard);
+
+            addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (isRightMouseButton(e)) {
+                        mSourceTile = null;
+                        mDestinationTile = null;
+                        mHumanMovedPiece = null;
+                    } else if (isLeftMouseButton(e)) {
+                        if (mSourceTile == null) {
+                            mSourceTile = mChessBoard.getTile(tileCoordinate);
+                            mHumanMovedPiece = mSourceTile.getPiece();
+                            if (mHumanMovedPiece == null) {
+                                mSourceTile = null;
+                            }
+                        } else {
+                            mDestinationTile = mChessBoard.getTile(tileCoordinate);
+                            final Move move = Move.MoveFactory.createMove(mChessBoard, mSourceTile.getTileCoordinate(),
+                                    mDestinationTile.getTileCoordinate());
+                            final MoveTransition moveTransition = mChessBoard.getCurrentPlayer().makeMove(move);
+                            if (moveTransition.getMoveStatus().isDone()) {
+                                mChessBoard = moveTransition.getTransitionBoard();
+                            }
+                            mSourceTile = null;
+                            mDestinationTile = null;
+                            mHumanMovedPiece = null;
+                        }
+                        invokeLater(() -> boardPanel.drawBoard(mChessBoard));
+                    }
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });
             validate();
         }
 
@@ -122,5 +200,11 @@ public class Table {
         }
 
 
+        public void drawTile(Board board) {
+            assignTileColor();
+            assignTilePieceIcon(board);
+            validate();
+            repaint();
+        }
     }
 }

@@ -15,7 +15,6 @@ import java.util.Map;
  * This class represent a single tile of 64 tiles in chess
  */
 public abstract class Tile {
-
     protected final Coordinate mTileCoordinate;
 
     private static final Map<Coordinate, EmptyTile> EMPTY_TILES_CACHE = createAllPossibleEmptyTiles();
@@ -42,8 +41,11 @@ public abstract class Tile {
         mTileCoordinate = tileCoordinate;
     }
 
-    public abstract boolean isTileOccupied();
+    public Coordinate getTileCoordinate() {
+        return mTileCoordinate;
+    }
 
+    public abstract boolean isTileOccupied();
 
     public abstract Piece getPiece();
 

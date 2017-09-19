@@ -41,9 +41,9 @@ public abstract class Move {
         if (this == o) return true;
         if (!(o instanceof Move)) return false;
         Move move = (Move) o;
-        return move.getCurrentCoordinate() == getCurrentCoordinate() &&
-                move.getDestinationCoordinate() == getDestinationCoordinate() &&
-                move.getPieceMoved() == getPieceMoved();
+        return move.getCurrentCoordinate().equals(this.getCurrentCoordinate()) &&
+                move.getDestinationCoordinate().equals(getDestinationCoordinate()) &&
+                move.getPieceMoved().equals(getPieceMoved());
     }
 
     public Coordinate getDestinationCoordinate() {
@@ -63,7 +63,7 @@ public abstract class Move {
 
         builder.setPiece(mPieceMoved.movePiece(this));
         builder.setMoveMaker(mBoard.getCurrentPlayer().getOpponent().getAlliance());
-        return null;
+        return builder.build();
     }
 
     public Piece getPieceMoved() {
@@ -79,7 +79,7 @@ public abstract class Move {
     }
 
     public Coordinate getCurrentCoordinate() {
-        return getPieceMoved().getPieceCoordinate();
+        return mPieceMoved.getPieceCoordinate();
     }
 
     public static final class MajorMove extends Move {
@@ -88,6 +88,11 @@ public abstract class Move {
                          final Piece pieceMoved,
                          final Coordinate destinationCoordinate) {
             super(board, pieceMoved, destinationCoordinate);
+        }
+
+        @Override
+        public boolean equals(final Object other) {
+            return this == other || other instanceof MajorMove && super.equals(other);
         }
 
     }
@@ -213,8 +218,8 @@ public abstract class Move {
                                       final Coordinate currentCoordinate,
                                       final Coordinate destinationCoordinate) {
             for (final Move move : board.getAllLegalMoves()) {
-                if (move.getCurrentCoordinate() == currentCoordinate &&
-                        move.getDestinationCoordinate() == destinationCoordinate) {
+                if (move.getCurrentCoordinate().equals(currentCoordinate) &&
+                        move.getDestinationCoordinate().equals(destinationCoordinate)) {
                     return move;
                 }
             }

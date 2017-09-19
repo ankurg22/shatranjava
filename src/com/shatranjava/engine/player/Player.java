@@ -46,7 +46,7 @@ public abstract class Player {
                 return (King) piece;
             }
         }
-        throw new RuntimeException("You can't have an Board without a King.");
+        throw new RuntimeException("You can't have an Board without a King of " + getAlliance());
     }
 
     public boolean isMoveLegal(final Move move) {

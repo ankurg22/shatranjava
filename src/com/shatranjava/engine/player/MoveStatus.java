@@ -3,21 +3,21 @@ package com.shatranjava.engine.player;
 public enum MoveStatus {
     DONE {
         @Override
-        boolean isDone() {
+        public boolean isDone() {
             return true;
         }
     },
     ILLEGAL_MOVE {
         @Override
-        boolean isDone() {
+        public boolean isDone() {
             return false;
         }
     },
     CHECK_MATE {
         @Override
-        boolean isDone() {
+        public boolean isDone() {
             return false;
         }
     };
-    abstract boolean isDone();
+    public abstract boolean isDone();
 }
