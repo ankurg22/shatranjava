@@ -56,6 +56,7 @@ public class Table {
     private JMenuBar createTableMenuBar() {
         final JMenuBar tableMenuBar = new JMenuBar();
         tableMenuBar.add(createFileMenu());
+        tableMenuBar.add(createPreferencesMenu());
         return tableMenuBar;
     }
 
@@ -68,16 +69,21 @@ public class Table {
         });
 
         final JMenuItem exitMenu = new JMenuItem("Exit");
-        exitMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        exitMenu.addActionListener(e -> System.exit(0));
 
         fileMenu.add(openPGN);
         fileMenu.add(exitMenu);
         return fileMenu;
+    }
+
+    private JMenu createPreferencesMenu() {
+        final JMenu preferencesMenu = new JMenu("Preferences");
+
+        final JCheckBoxMenuItem highlightMoves = new JCheckBoxMenuItem("Highlight legal moves", true);
+
+        preferencesMenu.add(highlightMoves);
+        return preferencesMenu;
+
     }
 
     private class BoardPanel extends JPanel {
