@@ -17,6 +17,8 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
 
 import static javax.swing.SwingUtilities.invokeLater;
 import static javax.swing.SwingUtilities.isLeftMouseButton;
@@ -30,6 +32,8 @@ public class Table {
     private Tile mSourceTile;
     private Tile mDestinationTile;
     private Piece mHumanMovedPiece;
+
+    private boolean highlightLegalMoves;
 
     private static final Dimension FRAME_DIMENSION_OUTER = new Dimension(600, 600);
     private static final Dimension BOARD_PANEL_DIMENSION = new Dimension(400, 350);
@@ -79,7 +83,10 @@ public class Table {
     private JMenu createPreferencesMenu() {
         final JMenu preferencesMenu = new JMenu("Preferences");
 
-        final JCheckBoxMenuItem highlightMoves = new JCheckBoxMenuItem("Highlight legal moves", true);
+        final JCheckBoxMenuItem highlightMoves = new JCheckBoxMenuItem("Highlight legal moves", false);
+        highlightMoves.addActionListener(e ->{
+            highlightLegalMoves = highlightMoves.isSelected();
+        });
 
         preferencesMenu.add(highlightMoves);
         return preferencesMenu;
@@ -144,6 +151,7 @@ public class Table {
                                 mSourceTile = null;
                             }
                         } else {
+                            highlightLegalMoves(mChessBoard);
                             mDestinationTile = mChessBoard.getTile(tileCoordinate);
                             final Move move = Move.MoveFactory.createMove(mChessBoard, mSourceTile.getTileCoordinate(),
                                     mDestinationTile.getTileCoordinate());
@@ -205,10 +213,31 @@ public class Table {
             }
         }
 
+        private void highlightLegalMoves(final Board board) {
+            if (highlightLegalMoves) {
+                for (final Move move : pieceLegalMoves(board)) {
+                    if (move.getDestinationCoordinate().equals(tileCoordinate)) {
+                        try {
+                            add(new JLabel(new ImageIcon(ImageIO.read(new File("art/misc/green.png")))));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+
+        private Collection<Move> pieceLegalMoves(Board board) {
+            if (mHumanMovedPiece != null && mHumanMovedPiece.getPieceAlliance() == board.getCurrentPlayer().getAlliance()) {
+                return mHumanMovedPiece.calculateLegalMoves(board);
+            }
+            return Collections.emptyList();
+        }
 
         public void drawTile(Board board) {
             assignTileColor();
             assignTilePieceIcon(board);
+            highlightLegalMoves(board);
             validate();
             repaint();
         }
