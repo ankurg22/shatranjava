@@ -17,20 +17,21 @@ import java.util.Collection;
 public abstract class Piece {
     private final Coordinate mPieceCoordinate;
     private final Alliance mPieceAlliance;
-    protected boolean isFirstMove;
+    private boolean mIsFirstMove;
     private int mCachedHashCode;
 
-    Piece(final Coordinate pieceCoordinate, final Alliance pieceAlliance) {
+    Piece(final Coordinate pieceCoordinate, final Alliance pieceAlliance, final boolean isFirstMove) {
         mPieceAlliance = pieceAlliance;
         mPieceCoordinate = pieceCoordinate;
-        isFirstMove = false;
+        mIsFirstMove = isFirstMove;
         mCachedHashCode = computeHashCode();
     }
+
 
     private int computeHashCode() {
         int result = mPieceCoordinate.hashCode();
         result = 31 * result + mPieceAlliance.hashCode();
-        result = 31 * result + (isFirstMove ? 1 : 0);
+        result = 31 * result + (mIsFirstMove ? 1 : 0);
         return result;
     }
 
@@ -48,7 +49,7 @@ public abstract class Piece {
         Piece piece = (Piece) o;
         return mPieceCoordinate.equals(piece.getPieceCoordinate()) &&
                 mPieceAlliance == piece.getPieceAlliance() &&
-                isFirstMove == piece.isFirstMove;
+                mIsFirstMove == piece.isFirstMove();
     }
 
     public abstract Collection<Move> calculateLegalMoves(final Board board);
@@ -62,7 +63,7 @@ public abstract class Piece {
     }
 
     public boolean isFirstMove() {
-        return isFirstMove;
+        return mIsFirstMove;
     }
 
     public abstract PieceType getPieceType();
