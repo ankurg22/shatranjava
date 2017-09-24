@@ -7,6 +7,8 @@ import com.shatranjava.engine.board.Board;
 import com.shatranjava.engine.board.Move;
 import com.shatranjava.engine.board.Move.AttackMove;
 import com.shatranjava.engine.board.Move.MajorMove;
+import com.shatranjava.engine.board.Move.PawnAttackMove;
+import com.shatranjava.engine.board.Move.PawnJump;
 import com.shatranjava.engine.board.Tile;
 
 import java.util.ArrayList;
@@ -64,7 +66,7 @@ public class Pawn extends Piece {
                     //Non attacking move(jump)
                 } else if ((currentCoordinate.getX() == 2 ||
                         currentCoordinate.getX() == -2) &&
-                                isFirstMove()) {
+                        isFirstMove()) {
                     final Coordinate behindCandidateDestinationCoordinate =
                             Coordinate.add(
                                     getPieceCoordinate(),
@@ -75,7 +77,7 @@ public class Pawn extends Piece {
                             );
                     if (!board.getTile(behindCandidateDestinationCoordinate).isTileOccupied() &&
                             !board.getTile(candidateDestinationCoordinate).isTileOccupied()) {
-                        legalMoves.add(new MajorMove(board,
+                        legalMoves.add(new PawnJump(board,
                                 this,
                                 candidateDestinationCoordinate)
                         );
@@ -85,7 +87,7 @@ public class Pawn extends Piece {
                         final Piece pieceAtDestination = candidateDestinationTile.getPiece();
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
                         if (pieceAlliance != getPieceAlliance()) {
-                            legalMoves.add(new AttackMove(
+                            legalMoves.add(new PawnAttackMove(
                                     board,
                                     this,
                                     candidateDestinationCoordinate,

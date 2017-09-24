@@ -17,6 +17,7 @@ public abstract class Move {
     protected final Board mBoard;
     protected final Piece mPieceMoved;
     private final Coordinate mDestinationCoordinate;
+    private final boolean isFirstMove;
 
     public static final Move NULL_MOVE = new NullMove();
 
@@ -26,6 +27,15 @@ public abstract class Move {
         mBoard = board;
         mPieceMoved = pieceMoved;
         mDestinationCoordinate = destinationCoordinate;
+        isFirstMove = mPieceMoved.isFirstMove();
+    }
+
+    private Move(final Board board,
+                 final Coordinate destinationCoordinate) {
+        mBoard = board;
+        mPieceMoved = null;
+        mDestinationCoordinate = destinationCoordinate;
+        isFirstMove = false;
     }
 
     @Override
@@ -33,6 +43,7 @@ public abstract class Move {
 
         int result = 31 + mPieceMoved.hashCode();
         result = 31 * result + mDestinationCoordinate.hashCode();
+        result = 31 * result + mPieceMoved.getPieceCoordinate().hashCode();
         return result;
     }
 
