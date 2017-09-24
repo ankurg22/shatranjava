@@ -63,13 +63,13 @@ public class Pawn extends Piece {
                     }
                     //Non attacking move(jump)
                 } else if ((currentCoordinate.getX() == 2 ||
-                        currentCoordinate.getX() == -2 &&
-                                isFirstMove())) {
+                        currentCoordinate.getX() == -2) &&
+                                isFirstMove()) {
                     final Coordinate behindCandidateDestinationCoordinate =
                             Coordinate.add(
                                     getPieceCoordinate(),
                                     Coordinate.mult(
-                                            new Coordinate(-1, 0),
+                                            new Coordinate(1, 0),
                                             getPieceAlliance().getDirection()
                                     )
                             );
