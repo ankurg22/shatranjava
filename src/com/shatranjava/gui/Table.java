@@ -56,6 +56,7 @@ public class Table {
 
         mBoardPanel = new BoardPanel();
         mGameFrame.add(mBoardPanel, BorderLayout.CENTER);
+        mGameFrame.add(new KilledPiecesPanel(), BorderLayout.WEST);
         mGameFrame.setVisible(true);
     }
 
@@ -126,7 +127,7 @@ public class Table {
         }
     }
 
-    private static class MoveLog {
+    public static class MoveLog {
         private final List<Move> moves;
 
         public MoveLog(){

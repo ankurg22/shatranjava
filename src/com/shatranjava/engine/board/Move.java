@@ -211,7 +211,7 @@ public abstract class Move {
     public static final class NullMove extends Move {
 
         public NullMove() {
-            super(null, null, null);
+            super(null, null);
         }
 
         @Override
