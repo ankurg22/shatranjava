@@ -29,7 +29,9 @@ import static javax.swing.SwingUtilities.isRightMouseButton;
 public class Table {
     private final JFrame mGameFrame;
     private final BoardPanel mBoardPanel;
+    private KilledPiecesPanel mKilledPiecesPanel;
     private Board mChessBoard;
+    private MoveLog mMoveLog;
 
     private Tile mSourceTile;
     private Tile mDestinationTile;
@@ -55,8 +57,10 @@ public class Table {
         mChessBoard = Board.createStandardBoard();
 
         mBoardPanel = new BoardPanel();
+        mMoveLog = new MoveLog();
         mGameFrame.add(mBoardPanel, BorderLayout.CENTER);
-        mGameFrame.add(new KilledPiecesPanel(), BorderLayout.WEST);
+        mKilledPiecesPanel = new KilledPiecesPanel();
+        mGameFrame.add(mKilledPiecesPanel, BorderLayout.WEST);
         mGameFrame.setVisible(true);
     }
 
@@ -87,7 +91,7 @@ public class Table {
         final JMenu preferencesMenu = new JMenu("Preferences");
 
         final JCheckBoxMenuItem highlightMoves = new JCheckBoxMenuItem("Highlight legal moves", false);
-        highlightMoves.addActionListener(e ->{
+        highlightMoves.addActionListener(e -> {
             highlightLegalMoves = highlightMoves.isSelected();
         });
 
@@ -130,7 +134,7 @@ public class Table {
     public static class MoveLog {
         private final List<Move> moves;
 
-        public MoveLog(){
+        public MoveLog() {
             moves = new ArrayList<>();
         }
 
@@ -138,23 +142,23 @@ public class Table {
             return moves;
         }
 
-        public void addMove(final Move move){
+        public void addMove(final Move move) {
             moves.add(move);
         }
 
-        public int size(){
+        public int size() {
             return moves.size();
         }
 
-        public void clear(){
+        public void clear() {
             moves.clear();
         }
 
-        public Move removeMove(int index){
+        public Move removeMove(int index) {
             return moves.remove(index);
         }
 
-        public boolean removeMove(Move move){
+        public boolean removeMove(Move move) {
             return moves.remove(move);
         }
     }
@@ -193,12 +197,16 @@ public class Table {
                             final MoveTransition moveTransition = mChessBoard.getCurrentPlayer().makeMove(move);
                             if (moveTransition.getMoveStatus().isDone()) {
                                 mChessBoard = moveTransition.getTransitionBoard();
+                                mMoveLog.addMove(move);
                             }
                             mSourceTile = null;
                             mDestinationTile = null;
                             mHumanMovedPiece = null;
                         }
-                        invokeLater(() -> boardPanel.drawBoard(mChessBoard));
+                        invokeLater(() -> {
+                            mKilledPiecesPanel.redo(mMoveLog);
+                            boardPanel.drawBoard(mChessBoard);
+                        });
                     }
                 }
 

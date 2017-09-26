@@ -142,11 +142,6 @@ public abstract class Move {
         public Piece getAttackedPiece() {
             return mPieceAttacked;
         }
-
-        @Override
-        public Board execute() {
-            return null;
-        }
     }
 
     public static final class PawnMove extends Move {
