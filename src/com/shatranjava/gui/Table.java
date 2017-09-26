@@ -17,8 +17,10 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import static javax.swing.SwingUtilities.invokeLater;
 import static javax.swing.SwingUtilities.isLeftMouseButton;
@@ -121,6 +123,38 @@ public class Table {
                 validate();
                 repaint();
             }
+        }
+    }
+
+    private static class MoveLog {
+        private final List<Move> moves;
+
+        public MoveLog(){
+            moves = new ArrayList<>();
+        }
+
+        public List<Move> getMoves() {
+            return moves;
+        }
+
+        public void addMove(final Move move){
+            moves.add(move);
+        }
+
+        public int size(){
+            return moves.size();
+        }
+
+        public void clear(){
+            moves.clear();
+        }
+
+        public Move removeMove(int index){
+            return moves.remove(index);
+        }
+
+        public boolean removeMove(Move move){
+            return moves.remove(move);
         }
     }
 
