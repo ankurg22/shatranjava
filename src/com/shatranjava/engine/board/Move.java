@@ -204,7 +204,24 @@ public abstract class Move {
             return this == other || other instanceof PawnEnPassantAttack && super.equals(other);
         }
 
-        
+        @Override
+        public Board execute() {
+            final Builder builder = new Builder();
+            for (Piece piece : mBoard.getCurrentPlayer().getActivePieces()) {
+                if (!mPieceMoved.equals(piece)) {
+                    builder.setPiece(piece);
+                }
+            }
+            for (Piece piece : mBoard.getCurrentPlayer().getOpponent().getActivePieces()) {
+                if (!piece.equals(getAttackedPiece())) {
+                    builder.setPiece(piece);
+                }
+            }
+
+            builder.setPiece(mPieceMoved.movePiece(this));
+            builder.setMoveMaker(mBoard.getCurrentPlayer().getOpponent().getAlliance());
+            return builder.build();
+        }
     }
 
     public static final class PawnJump extends Move {
