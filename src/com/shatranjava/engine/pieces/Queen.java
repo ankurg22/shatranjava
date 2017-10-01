@@ -62,7 +62,7 @@ public class Queen extends Piece {
 
                         if (pieceAlliance != getPieceAlliance()) {
                             //Enemy
-                            legalMoves.add(new AttackMove(board,
+                            legalMoves.add(new MajorAttackMove(board,
                                     this,
                                     candidateDestinationCoordinate,
                                     pieceAtDestination)

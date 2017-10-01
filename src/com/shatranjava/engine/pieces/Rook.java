@@ -5,6 +5,7 @@ import com.shatranjava.engine.Alliance;
 import com.shatranjava.engine.Coordinate;
 import com.shatranjava.engine.board.Board;
 import com.shatranjava.engine.board.Move;
+import com.shatranjava.engine.board.Move.MajorAttackMove;
 import com.shatranjava.engine.board.Tile;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class Rook extends Piece {
 
                         if (pieceAlliance != getPieceAlliance()) {
                             //Enemy
-                            legalMoves.add(new Move.AttackMove(board,
+                            legalMoves.add(new MajorAttackMove(board,
                                     this,
                                     candidateDestinationCoordinate,
                                     pieceAtDestination)
