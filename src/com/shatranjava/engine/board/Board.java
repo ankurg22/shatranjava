@@ -165,7 +165,6 @@ public class Board {
 
         Map<Coordinate, Piece> mBoardConfig;
         Alliance mNextMoveMaker;
-        private Pawn enPassantPawn;
 
         public Builder() {
             mBoardConfig = new HashMap<>();
@@ -183,10 +182,6 @@ public class Board {
 
         public Board build() {
             return new Board(this);
-        }
-
-        public void setEnPassantPawn(Pawn enPassantPawn) {
-            this.enPassantPawn = enPassantPawn;
         }
     }
 }

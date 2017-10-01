@@ -190,40 +190,6 @@ public abstract class Move {
 
     }
 
-    public static final class PawnEnPassantAttack extends PawnAttackMove {
-
-        public PawnEnPassantAttack(final Board board,
-                                   final Piece pieceMoved,
-                                   final Coordinate destinationCoordinate,
-                                   final Piece pieceAttacked) {
-            super(board, pieceMoved, destinationCoordinate, pieceAttacked);
-        }
-
-        @Override
-        public boolean equals(Object other) {
-            return this == other || other instanceof PawnEnPassantAttack && super.equals(other);
-        }
-
-        @Override
-        public Board execute() {
-            final Builder builder = new Builder();
-            for (Piece piece : mBoard.getCurrentPlayer().getActivePieces()) {
-                if (!mPieceMoved.equals(piece)) {
-                    builder.setPiece(piece);
-                }
-            }
-            for (Piece piece : mBoard.getCurrentPlayer().getOpponent().getActivePieces()) {
-                if (!piece.equals(getAttackedPiece())) {
-                    builder.setPiece(piece);
-                }
-            }
-
-            builder.setPiece(mPieceMoved.movePiece(this));
-            builder.setMoveMaker(mBoard.getCurrentPlayer().getOpponent().getAlliance());
-            return builder.build();
-        }
-    }
-
     public static final class PawnJump extends Move {
 
         public PawnJump(final Board board,
@@ -245,7 +211,6 @@ public abstract class Move {
             }
             final Pawn movedPawn = (Pawn) mPieceMoved.movePiece(this);
             builder.setPiece(movedPawn);
-            builder.setEnPassantPawn(movedPawn);
             builder.setMoveMaker(mBoard.getCurrentPlayer().getOpponent().getAlliance());
             return builder.build();
         }
