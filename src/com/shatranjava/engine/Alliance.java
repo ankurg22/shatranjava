@@ -23,6 +23,11 @@ public enum Alliance {
         public Player choosePlayer(WhitePlayer whitePlayer, BlackPlayer blackPlayer) {
             return whitePlayer;
         }
+
+        @Override
+        public boolean isPawnPromotionSquare(Coordinate coordinate) {
+            return coordinate.getX() == 0;
+        }
     },
     BLACK {
         @Override
@@ -34,9 +39,16 @@ public enum Alliance {
         public Player choosePlayer(WhitePlayer whitePlayer, BlackPlayer blackPlayer) {
             return blackPlayer;
         }
+
+        @Override
+        public boolean isPawnPromotionSquare(Coordinate coordinate) {
+            return coordinate.getX() == 7;
+        }
     };
 
     public abstract int getDirection();
 
     public abstract Player choosePlayer(WhitePlayer whitePlayer, BlackPlayer blackPlayer);
+
+    public abstract boolean isPawnPromotionSquare(Coordinate coordinate);
 }

@@ -5,10 +5,7 @@ import com.shatranjava.engine.Alliance;
 import com.shatranjava.engine.Coordinate;
 import com.shatranjava.engine.board.Board;
 import com.shatranjava.engine.board.Move;
-import com.shatranjava.engine.board.Move.AttackMove;
-import com.shatranjava.engine.board.Move.MajorMove;
-import com.shatranjava.engine.board.Move.PawnAttackMove;
-import com.shatranjava.engine.board.Move.PawnJump;
+import com.shatranjava.engine.board.Move.*;
 import com.shatranjava.engine.board.Tile;
 
 import java.util.ArrayList;
@@ -58,10 +55,17 @@ public class Pawn extends Piece {
                         currentCoordinate.getY() == 0) {
                     //Forward by 1, no attacking
                     if (!candidateDestinationTile.isTileOccupied()) {
-                        legalMoves.add(new MajorMove(board,
-                                this,
-                                candidateDestinationCoordinate)
-                        );
+                        if (getPieceAlliance().isPawnPromotionSquare(candidateDestinationCoordinate)) {
+                            legalMoves.add(new PawnPromotion(new PawnMove(board,
+                                    this,
+                                    candidateDestinationCoordinate))
+                            );
+                        } else {
+                            legalMoves.add(new PawnMove(board,
+                                    this,
+                                    candidateDestinationCoordinate)
+                            );
+                        }
                     }
                     //Non attacking move(jump)
                 } else if ((currentCoordinate.getX() == 2 ||
@@ -87,6 +91,28 @@ public class Pawn extends Piece {
                         final Piece pieceAtDestination = candidateDestinationTile.getPiece();
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
                         if (pieceAlliance != getPieceAlliance()) {
+                            if (getPieceAlliance().isPawnPromotionSquare(candidateDestinationCoordinate)) {
+                                legalMoves.add(new PawnPromotion(new PawnAttackMove(
+                                        board,
+                                        this,
+                                        candidateDestinationCoordinate,
+                                        pieceAtDestination))
+                                );
+                            } else {
+                                legalMoves.add(new PawnAttackMove(
+                                        board,
+                                        this,
+                                        candidateDestinationCoordinate,
+                                        pieceAtDestination)
+                                );
+                            }
+                        }
+                    }
+                } /*else {
+                    if (candidateDestinationTile.isTileOccupied()) {
+                        final Piece pieceAtDestination = candidateDestinationTile.getPiece();
+                        final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
+                        if (pieceAlliance != getPieceAlliance()) {
                             legalMoves.add(new PawnAttackMove(
                                     board,
                                     this,
@@ -95,20 +121,7 @@ public class Pawn extends Piece {
                             );
                         }
                     }
-                } else {
-                    if (candidateDestinationTile.isTileOccupied()) {
-                        final Piece pieceAtDestination = candidateDestinationTile.getPiece();
-                        final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
-                        if (pieceAlliance != getPieceAlliance()) {
-                            legalMoves.add(new AttackMove(
-                                    board,
-                                    this,
-                                    candidateDestinationCoordinate,
-                                    pieceAtDestination)
-                            );
-                        }
-                    }
-                }
+                }**/
 
             }
         }
@@ -128,5 +141,9 @@ public class Pawn extends Piece {
     @Override
     public String toString() {
         return PieceType.PAWN.toString();
+    }
+
+    public Piece getPromotionPiece() {
+        return new Queen(getPieceCoordinate(), getPieceAlliance());
     }
 }
